@@ -2,24 +2,29 @@
 
 namespace Hexlet\Validator;
 
-use Hexlet\Validator\validators\ArrayValidator;
-use Hexlet\Validator\validators\NumberValidator;
-use Hexlet\Validator\validators\StringValidator;
+use Hexlet\Validator\exceptions\NotFoundValidator;
 
 class Validator
 {
-    public function string()
+    private $mapping = [
+        'string' => [],
+        'number' => [],
+        'array' => [],
+    ];
+
+    public function __call($name, $arguments)
     {
-        return new StringValidator();
+        $className = 'Hexlet\Validator\validators\\' . ucfirst($name) . 'Validator';
+
+        return new $className($this->mapping[$name]);
     }
 
-    public function number()
+    public function addValidator($type, $name, callable $fn)
     {
-        return new NumberValidator();
-    }
+        if (!isset($this->mapping[$type])) {
+            throw new NotFoundValidator();
+        }
 
-    public function array()
-    {
-        return new ArrayValidator();
+        $this->mapping[$type][$name] = $fn;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Hexlet\Validator\validators;
 
-class ArrayValidator
+class ArrayValidator extends BaseValidator
 {
     private $required = false;
     private $sizeof;
@@ -10,6 +10,10 @@ class ArrayValidator
 
     public function isValid($data)
     {
+        if ($this->name && $this->value) {
+            return $this->tests[$this->name]($data, $this->value);
+        }
+
         if ($this->required && !is_array($data)) {
             return false;
         }

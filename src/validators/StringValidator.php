@@ -2,11 +2,32 @@
 
 namespace Hexlet\Validator\validators;
 
-class StringValidator
+class StringValidator extends BaseValidator
 {
     private $required = false;
     private $substr = '';
     private $minLength;
+
+    public function isValid($text)
+    {
+        if ($this->name && $this->value) {
+            return $this->tests[$this->name]($text, $this->value);
+        }
+
+        if ($this->required && empty($text)) {
+            return false;
+        }
+
+        if ($this->substr && mb_strpos($text, $this->substr) === false) {
+            return false;
+        }
+
+        if ($this->minLength && mb_strlen($text) < $this->minLength) {
+            return false;
+        }
+
+        return true;
+    }
 
     public function required()
     {
@@ -24,22 +45,5 @@ class StringValidator
     {
         $this->minLength = $length;
         return $this;
-    }
-
-    public function isValid($text)
-    {
-        if ($this->required && empty($text)) {
-            return false;
-        }
-
-        if ($this->substr && mb_strpos($text, $this->substr) === false) {
-            return false;
-        }
-
-        if ($this->minLength && mb_strlen($text) < $this->minLength) {
-            return false;
-        }
-
-        return true;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Hexlet\Validator\validators;
 
-class NumberValidator
+class NumberValidator extends BaseValidator
 {
     private $required = false;
     private $positive = false;
@@ -11,6 +11,10 @@ class NumberValidator
 
     public function isValid($number)
     {
+        if ($this->name && $this->value) {
+            return $this->tests[$this->name]($number, $this->value);
+        }
+
         if ($this->required && empty($number)) {
             return false;
         }

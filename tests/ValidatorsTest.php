@@ -2,13 +2,15 @@
 
 namespace Hexlet\Validator\Tests;
 
+use Hexlet\Validator\exceptions\NotFoundValidator;
 use PHPUnit\Framework\TestCase;
+use Hexlet\Validator\Validator;
 
 class ValidatorsTest extends TestCase
 {
     public function testStringValidator(): void
     {
-        $v = new \Hexlet\Validator\Validator();
+        $v = new Validator();
 
         $schema = $v->string();
         $schema2 = $v->string();
@@ -34,7 +36,7 @@ class ValidatorsTest extends TestCase
 
     public function testNumberValidator(): void
     {
-        $v = new \Hexlet\Validator\Validator();
+        $v = new Validator();
 
         $schema = $v->number();
 
@@ -50,7 +52,7 @@ class ValidatorsTest extends TestCase
 
     public function testArray(): void
     {
-        $v = new \Hexlet\Validator\Validator();
+        $v = new Validator();
         $schema = $v->array();
 
         $this->assertTrue($schema->isValid(null));
@@ -65,7 +67,7 @@ class ValidatorsTest extends TestCase
 
     public function testArrayShape(): void
     {
-        $v = new \Hexlet\Validator\Validator();
+        $v = new Validator();
         $schema = $v->array();
 
         $schema->shape([
@@ -77,5 +79,26 @@ class ValidatorsTest extends TestCase
         $this->assertTrue($schema->isValid(['name' => 'maya', 'age' => null]));
         $this->assertFalse($schema->isValid(['name' => '', 'age' => null]));
         $this->assertFalse($schema->isValid(['name' => 'ada', 'age' => -5]));
+    }
+
+    public function testAddPersonalValidators()
+    {
+        $v = new Validator();
+
+        $fn = fn($value, $start) => str_starts_with($value, $start);
+
+        $v->addValidator('string', 'startWith', $fn);
+        $schema = $v->string()->test('startWith', 'H');
+        $this->assertFalse($schema->isValid('exlet'));
+        $this->assertTrue($schema->isValid('Hexlet'));
+
+        $fn = fn($value, $min) => $value >= $min;
+        $v->addValidator('number', 'min', $fn);
+        $schema = $v->number()->test('min', 5);
+        $this->assertFalse($schema->isValid(4));
+        $this->assertTrue($schema->isValid(6));
+
+        $this->expectException(NotFoundValidator::class);
+        $v->addValidator('wrong-name', 'startWith', $fn);
     }
 }
