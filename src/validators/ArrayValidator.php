@@ -6,6 +6,7 @@ class ArrayValidator
 {
     private $required = false;
     private $sizeof;
+    private $shape;
 
     public function isValid($data)
     {
@@ -15,6 +16,14 @@ class ArrayValidator
 
         if ($this->sizeof && count($data) < $this->sizeof) {
             return false;
+        }
+
+        if ($this->shape) {
+            foreach ($this->shape as $key => $validator) {
+                if (!$validator->isValid($data[$key])) {
+                    return false;
+                }
+            }
         }
 
         return true;
@@ -29,6 +38,12 @@ class ArrayValidator
     public function sizeof($size)
     {
         $this->sizeof = $size;
+        return $this;
+    }
+
+    public function shape($val)
+    {
+        $this->shape = $val;
         return $this;
     }
 }
