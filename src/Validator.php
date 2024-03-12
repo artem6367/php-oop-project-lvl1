@@ -2,58 +2,18 @@
 
 namespace Hexlet\Validator;
 
+use Hexlet\Validator\validators\NumberValidator;
+use Hexlet\Validator\validators\StringValidator;
+
 class Validator
 {
-    public $validators = [
-        'required' => false,
-        'contains' => false,
-        'minLength' => false,
-    ];
-
-    public function __construct(array $config = [])
+    public function string(): StringValidator
     {
-        $this->validators['required'] = $config['required'] ?? false;
-        $this->validators['contains'] = $config['contains'] ?? false;
-        $this->validators['minLength'] = $config['minLength'] ?? false;
+        return new StringValidator();
     }
 
-    public function isValid($val): bool
+    public function number(): NumberValidator
     {
-        if ($this->validators['required'] && empty($val)) {
-            return false;
-        }
-
-        if ($this->validators['contains'] && mb_strpos($val, $this->validators['contains']) === false) {
-            return false;
-        }
-
-        if ($this->validators['minLength'] && mb_strlen($val) < $this->validators['minLength']) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public function string(): self
-    {
-        return new self();
-    }
-
-    public function required(): self
-    {
-        $this->validators['required'] = true;
-        return $this;
-    }
-
-    public function contains(string $str): self
-    {
-        $this->validators['contains'] = $str;
-        return $this;
-    }
-
-    public function minLength(int $num): self
-    {
-        $this->validators['minLength'] = $num;
-        return $this;
+        return new NumberValidator();
     }
 }

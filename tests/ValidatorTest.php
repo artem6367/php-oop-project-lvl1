@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ValidatorTest extends TestCase
 {
-    public function testMain(): void
+    public function testString(): void
     {
         $v = new Validator();
 
@@ -30,5 +30,22 @@ class ValidatorTest extends TestCase
         $this->assertFalse($schema->contains('whatthe')->isValid('what does the fox say'));
 
         $this->assertTrue($v->string()->minLength(10)->minLength(5)->isValid('Hexlet'));
+    }
+
+    public function testNumber()
+    {
+        $v = new Validator();
+
+        $schema = $v->number();
+        $this->assertTrue($schema->isValid(null));
+
+        $schema->required();
+        $this->assertFalse($schema->isValid(null));
+        $this->assertTrue($schema->isValid(7));
+
+        $this->assertTrue($schema->positive()->isValid(10));
+        $schema->range(-5, 5);
+        $this->assertFalse($schema->isValid(-3));
+        $this->assertTrue($schema->isValid(5));
     }
 }
