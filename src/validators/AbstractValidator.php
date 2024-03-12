@@ -11,12 +11,19 @@ abstract class AbstractValidator
         $this->validators['custom'] = $validators;
     }
 
+    /**
+     * @param string $name
+     * @param mixed ...$params
+     */
     public function test(string $name, ...$params): self
     {
         $this->validators['custom_params'][$name] = $params;
         return $this;
     }
 
+    /**
+     * @param mixed $val
+     */
     public function isValid($val): bool
     {
         if ($this->validators['custom']) {

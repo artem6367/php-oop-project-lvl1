@@ -8,7 +8,7 @@ use Hexlet\Validator\validators\StringValidator;
 
 class Validator
 {
-    private $validators = [
+    private array $validators = [
         'string' => [],
         'number' => [],
         'array' => [],
@@ -29,7 +29,7 @@ class Validator
         return new ArrayValidator($this->validators['array']);
     }
 
-    public function addValidator(string $type, string $name, callable $fn)
+    public function addValidator(string $type, string $name, callable $fn): self
     {
         $this->validators[$type][$name] = $fn;
         return $this;
