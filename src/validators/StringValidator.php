@@ -2,7 +2,7 @@
 
 namespace Hexlet\Validator\validators;
 
-class StringValidator implements ValidatorInterface
+class StringValidator extends AbstractValidator
 {
     private $validators = [
         'required' => false,
@@ -12,6 +12,10 @@ class StringValidator implements ValidatorInterface
 
     public function isValid($val): bool
     {
+        if (!parent::isValid($val)) {
+            return false;
+        }
+
         if ($this->validators['required'] && empty($val)) {
             return false;
         }
