@@ -2,14 +2,15 @@
 
 namespace Hexlet\Validator\validators;
 
-class ArrayValidator
+class ArrayValidator implements ValidatorInterface
 {
     private $validators = [
         'required' => false,
         'sizeof' => false,
+        'shape' => false,
     ];
 
-    public function isValid(?array $val): bool
+    public function isValid($val): bool
     {
         if ($this->validators['required'] && !isset($val)) {
             return false;
@@ -17,6 +18,14 @@ class ArrayValidator
 
         if ($this->validators['sizeof'] && count($val) != $this->validators['sizeof']) {
             return false;
+        }
+
+        if ($this->validators['shape']) {
+            foreach ($this->validators['shape'] as $key => $v) {
+                if (!$v->isValid($val[$key])) {
+                    return false;
+                }
+            }
         }
 
         return true;
@@ -31,6 +40,12 @@ class ArrayValidator
     public function sizeof(int $size): self
     {
         $this->validators['sizeof'] = $size;
+        return $this;
+    }
+
+    public function shape(array $validators): self
+    {
+        $this->validators['shape'] = $validators;
         return $this;
     }
 }

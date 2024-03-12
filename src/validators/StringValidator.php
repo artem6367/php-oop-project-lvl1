@@ -2,7 +2,7 @@
 
 namespace Hexlet\Validator\validators;
 
-class StringValidator
+class StringValidator implements ValidatorInterface
 {
     private $validators = [
         'required' => false,
