@@ -1,5 +1,5 @@
 {
-    "name": "hexlet/code",
+    "name": "hexlet/validator",
     "type": "library",
     "authors": [
         {
@@ -12,12 +12,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Hexlet\\Code\\": "src/"
+            "Hexlet\\Validator\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Php\\Package\\Tests\\": "tests"
+            "Hexlet\\Validator\\Tests\\": "tests"
         }
     },
     "require": {
