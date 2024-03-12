@@ -46,6 +46,7 @@ class ValidatorTest extends TestCase
         $this->assertTrue($schema->positive()->isValid(10));
 
         $schema->range(-5, 5);
+        $this->assertFalse($schema->isValid(-3));
         $this->assertTrue($schema->isValid(5));
     }
 
