@@ -16,7 +16,7 @@ class StringValidator extends AbstractValidator
             return false;
         }
 
-        if ($this->validators['required'] && empty($val)) {
+        if ($this->validators['required'] && ($val === null || $val === '')) {
             return false;
         }
 
