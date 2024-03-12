@@ -16,11 +16,11 @@ class NumberValidator extends AbstractValidator
             return false;
         }
 
-        if ($this->validators['required'] && $val === null) {
+        if ($this->validators['required'] && ($val === null || $val === 0)) {
             return false;
         }
 
-        if ($this->validators['positive'] && $val <= 0) {
+        if ($this->validators['positive'] && $val < 0) {
             return false;
         }
 
