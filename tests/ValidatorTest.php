@@ -32,7 +32,7 @@ class ValidatorTest extends TestCase
         $this->assertTrue($v->string()->minLength(10)->minLength(5)->isValid('Hexlet'));
     }
 
-    public function testNumber()
+    public function testNumber(): void
     {
         $v = new Validator();
 
@@ -50,7 +50,7 @@ class ValidatorTest extends TestCase
         $this->assertTrue($schema->isValid(5));
     }
 
-    public function testArray()
+    public function testArray(): void
     {
         $v = new Validator();
 
@@ -67,7 +67,7 @@ class ValidatorTest extends TestCase
         $this->assertTrue($schema->isValid(['hexlet', 'code-basics']));
     }
 
-    public function testShape()
+    public function testShape(): void
     {
         $v = new Validator();
 
@@ -83,7 +83,7 @@ class ValidatorTest extends TestCase
         $this->assertFalse($schema->isValid(['name' => 'ada', 'age' => -5]));
     }
 
-    public function testAddValidator()
+    public function testAddValidator(): void
     {
         $v = new Validator();
 

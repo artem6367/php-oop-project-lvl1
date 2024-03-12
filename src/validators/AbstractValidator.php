@@ -4,14 +4,14 @@ namespace Hexlet\Validator\validators;
 
 abstract class AbstractValidator
 {
-    private $validators = [];
+    private array $validators = [];
 
-    public function __construct($validators = false)
+    public function __construct(array $validators = [])
     {
         $this->validators['custom'] = $validators;
     }
 
-    public function test($name, ...$params)
+    public function test(string $name, ...$params): self
     {
         $this->validators['custom_params'][$name] = $params;
         return $this;

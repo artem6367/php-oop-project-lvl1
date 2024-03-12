@@ -4,7 +4,7 @@ namespace Hexlet\Validator\validators;
 
 class ArrayValidator extends AbstractValidator
 {
-    private $validators = [
+    private array $validators = [
         'required' => false,
         'sizeof' => false,
         'shape' => false,

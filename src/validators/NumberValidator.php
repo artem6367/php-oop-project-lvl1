@@ -4,7 +4,7 @@ namespace Hexlet\Validator\validators;
 
 class NumberValidator extends AbstractValidator
 {
-    private $validators = [
+    private array $validators = [
         'required' => false,
         'positive' => false,
         'range' => false,
@@ -24,26 +24,29 @@ class NumberValidator extends AbstractValidator
             return false;
         }
 
-        if ($this->validators['range'] && ($val < $this->validators['range'][0] || $val > $this->validators['range'][1])) {
+        if (
+            $this->validators['range'] &&
+            ($val < $this->validators['range'][0] || $val > $this->validators['range'][1])
+        ) {
             return false;
         }
 
         return true;
     }
 
-    public function required()
+    public function required(): self
     {
         $this->validators['required'] = true;
         return $this;
     }
 
-    public function positive()
+    public function positive(): self
     {
         $this->validators['positive'] = true;
         return $this;
     }
 
-    public function range(int $start, int $end)
+    public function range(int $start, int $end): self
     {
         $this->validators['range'] = [$start, $end];
         return $this;
